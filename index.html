@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Find Larger Pictures</title>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="css/main.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <ul class="image-list">
+    </ul>
+
+    <script id="image-item-tpl" type="text/tpl">
+      <li class="clearfix">
+        <div class="ori-image clearfix">
+          <div class="image">
+            <img src="" />
+            <span class="image-size"></span>
+          </div>
+        </div>
+        <div class="search-image clearfix">
+        </div>
+      </li>
+    </script>
+
+    <script id="image-loading-tpl" type="text/tpl">
+      <div class="image-loading">LOADING...</div>
+    </script>
+
+    <script id="image-error-tpl" type="text/tpl">
+      <a href="#"><div class="image-loading">ERROR...</div></a>
+    </script>
+
+    <script id="image-notfount-tpl" type="text/tpl">
+      <a href="#"><div class="image-loading">NOT FOUND...</div></a>
+    </script>
+    
+    <script id="image-tpl" type="text/tpl">
+      <div class="image">
+        <img src="" />
+        <span class="image-size"></span>
+      </div>
+    </script>
+
+    <script id="image-more-tpl" type="text/tpl">
+      <div class="image-more">
+        <a href="" target="_blank">...</a>
+      </div>
+    </script>
+
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/ajaxq.js"></script>
+    <script src="js/flp.js"></script>
+  </body>
+</html>
+<!-- vim: set et sw=2 ts=2 sts=2 ff=unix fenc=utf8: -->
+

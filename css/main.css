@@ -1,0 +1,120 @@
+/* vim: set et sw=2 ts=2 sts=2 ff=unix fenc=utf8: */
+/* Author: Binux<17175297.hk@gmail.com> */
+/*         http://binux.me */
+/* Created on <T_CREATE_DATE> */
+
+ul {
+  padding: 0;
+}
+.image-list li {
+  position: relative;
+  display: block;
+  padding: 5px 0;
+  margin: 0;
+}
+.image-list li:nth-child(even) {
+  background-color: #DDD;
+}
+.clearfix:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.ori-image {
+  float: left;
+}
+.search-image {
+  float: right;
+}
+
+.image {
+  cursor: pointer;
+  position: relative;
+  float: left;
+  opacity: 0.9;
+}
+.image:hover {
+  opacity: 1;
+}
+.image img {
+  min-height: 100px;
+  min-width: 50px;
+  max-height: 150px;
+  max-width: 150px;
+}
+.image-size {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  opacity: 0.6;
+  color: white;
+}
+.image-selected {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #666;
+  opacity: 0.8;
+  font-size: 200%;
+  text-align: center;
+}
+.image-selected:hover {
+  background-color: transparent;
+}
+.image-selected span {
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+}
+.image-more {
+  width: 40px;
+  float: left;
+  margin-left: 5px;
+}
+.image-more a {
+  font-size: 200%;
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+}
+
+.image-loading {
+  position: absolute;
+  font-size: 300%;
+  right: 10px;
+  bottom: 5px;
+}
+
+@font-face {
+  font-family: 'fontello';
+  src: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiID4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgRm9udEZvcmdlIDIwMTAwNDI5IGF0IE1vbiBBdWcgMTMgMTE6NDI6MzUgMjAxMgogQnkgcm9vdApDb3B5cmlnaHQgKEMpIDIwMTIgYnkgb3JpZ2luYWwgYXV0aG9ycyBAIGZvbnRlbGxvLmNvbQo8L21ldGFkYXRhPgo8ZGVmcz4KPGZvbnQgaWQ9ImZvbnRlbGxvIiBob3Jpei1hZHYteD0iMTIyOCIgPgogIDxmb250LWZhY2UgCiAgICBmb250LWZhbWlseT0iZm9udGVsbG8iCiAgICBmb250LXdlaWdodD0iNTAwIgogICAgZm9udC1zdHJldGNoPSJub3JtYWwiCiAgICB1bml0cy1wZXItZW09IjEwMDAiCiAgICBwYW5vc2UtMT0iMiAwIDYgMyAwIDAgMCAwIDAgMCIKICAgIGFzY2VudD0iODAwIgogICAgZGVzY2VudD0iLTIwMCIKICAgIGJib3g9IjE4IC0xMjcgMTAyNCA3NjYiCiAgICB1bmRlcmxpbmUtdGhpY2tuZXNzPSI1MCIKICAgIHVuZGVybGluZS1wb3NpdGlvbj0iLTEwMCIKICAgIHVuaWNvZGUtcmFuZ2U9IlUrMjE5My0xRjZBQiIKICAvPgo8bWlzc2luZy1nbHlwaCBob3Jpei1hZHYteD0iMzY0IiAKZD0iTTMzIDB2NjY2aDI2NXYtNjY2aC0yNjV6TTY2IDMzaDE5OXY2MDBoLTE5OXYtNjAweiIgLz4KICAgIDxnbHlwaCBnbHlwaC1uYW1lPSIubm90ZGVmIiBob3Jpei1hZHYteD0iMzY0IiAKZD0iTTMzIDB2NjY2aDI2NXYtNjY2aC0yNjV6TTY2IDMzaDE5OXY2MDBoLTE5OXYtNjAweiIgLz4KICAgIDxnbHlwaCBnbHlwaC1uYW1lPSIubnVsbCIgaG9yaXotYWR2LXg9IjAiIAogLz4KICAgIDxnbHlwaCBnbHlwaC1uYW1lPSJub25tYXJraW5ncmV0dXJuIiBob3Jpei1hZHYteD0iMzMzIiAKIC8+CiAgICA8Z2x5cGggZ2x5cGgtbmFtZT0iYXJyb3dkb3duIiB1bmljb2RlPSImI3gyMTkzOyIgaG9yaXotYWR2LXg9IjkyOCIgCmQ9Ik05MTEgMzIwbC00NDcgLTQ0N2wtNDQ2IDQ0N2wxNTggMTU4bDE3NyAtMTc2djQ2NGgyMjN2LTQ2NGwxNzYgMTc1eiIgLz4KICAgIDxnbHlwaCBnbHlwaC1uYW1lPSJ1bmkyNzEzIiB1bmljb2RlPSImI3gyNzEzOyIgCmQ9Ik0xMzggMzIwcTAgNDEgNDEgOTJxMzYgMzYgOTIgMzZxMzEgMCA1NyAtMjBxNDAgLTMxIDU2IC00N2w1NiAtNTZxMjEgLTI2IDM2IC00MWwyNzIgMzg0cTQwIDU3IDEwNyA1N3E0NiAwIDg3IC00MXEzNiAtMzYgMzYgLTg3LjV0LTkyIC0xODkuNXEtNjcgLTEwMiAtMjMxIC0zMzNsLTE0MyAtMTg5bC0zMzMgMzM4cS00MSA0MSAtNDEgOTd6IiAvPgogICAgPGdseXBoIGdseXBoLW5hbWU9InUxRjZBQiIgdW5pY29kZT0iJiN4MWY2YWI7IiAKZD0iTTIwNSAyOTQuNXEwIDE2OS41IDEyMCAyODkuNXQyODkuNSAxMjB0Mjg5LjUgLTEyMHQxMjAgLTI4OS41dC0xMjAgLTI4OS41dC0yODkuNSAtMTIwdC0yODkuNSAxMjB0LTEyMCAyODkuNXpNMzU4IDI5NHEwIC0xMDcgNzQuNSAtMTgxLjV0MTgxLjUgLTc0LjVxNjIgMCAxMTggMzFsLTM0MyAzNDNxLTMxIC01NiAtMzEgLTExOHpNNDk3IDUxOWwzNDIgLTM0MnEzMSA1NiAzMiAxMTdxMCAxMDggLTc0LjUgMTgyLjV0LTE4Mi41IDc0LjUKcS02MSAtMSAtMTE3IC0zMnoiIC8+CiAgPC9mb250Pgo8L2RlZnM+PC9zdmc+Cg==") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.2em;
+  text-align: center;
+  opacity: 0.7;
+/* Uncomment for 3D effect */
+/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+/* fix buttons height */
+  line-height: 1em;
+/* you can be more comfortable with increased icons size */
+/* font-zize: 120%; */
+}
+
+.icon-down:before { content: '\2193'; }
+.icon-ok:before { content: '\2713'; }
+.icon-block:before { content: '\1f6ab'; }
