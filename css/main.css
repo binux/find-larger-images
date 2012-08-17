@@ -3,6 +3,20 @@
 /*         http://binux.me */
 /* Created on <T_CREATE_DATE> */
 
+#helper {
+  width: 90%%;
+  height: 500px; 
+  margin-left: 5%;
+  margin-top: 5%;
+  border: 5px dashed #333;
+  border-radius: 10px;
+}
+#helper-text {
+  text-align: center;
+  line-height: 500px;
+  font-size: 500%;
+}
+
 ul {
   padding: 0;
 }
@@ -38,7 +52,7 @@ ul {
   opacity: 1;
 }
 .image img {
-  min-height: 100px;
+  min-height: 50px;
   min-width: 50px;
   max-height: 150px;
   max-width: 150px;
@@ -51,25 +65,27 @@ ul {
   opacity: 0.6;
   color: white;
 }
-.image-selected {
+.image-hover:before {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  background-color: #666;
-  opacity: 0.8;
-  font-size: 200%;
+  right: 5px;
+  top: 5px;
+  color: black;
+
+  font-family: 'fontello';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
   text-align: center;
+  margin-right: 0 !important;
+  opacity: 0.7;
+  line-height: 1em;
+  font-size: 200%;
 }
-.image-selected:hover {
-  background-color: transparent;
-}
-.image-selected span {
-  position: absolute;
-  bottom: 5px;
-  right: 0;
-}
+a.image:hover .image-hover:before { content: '\2193'; }
+a.image:visited .image-hover:before { content: '\2713'; }
 .image-more {
   width: 40px;
   float: left;

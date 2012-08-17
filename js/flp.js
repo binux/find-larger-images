@@ -13,6 +13,9 @@
           new_item.find(".ori-image .image-size").text(this.naturalWidth+" × "+this.naturalHeight);
 
         });
+        new_item.find(".ori-image a").on("click", function() {
+          chrome.tabs.create({url: data_url, active: true});
+        });
         new_item.find(".search-image").empty().append(image_loading_tpl);
         new_item.appendTo(".image-list");
 
@@ -43,46 +46,14 @@
               var new_image = $(image_tpl).attr("data-status", "waiting");
               new_image.find("img").attr("src", e.sample).attr("title", e.url);
               new_image.find(".image-size").text(e.size[0]+" × "+e.size[1]);
-              new_image.on("click", function() {
-                if (new_image.attr("data-status") == "waiting") {
-                  new_image.find("img").attr("src", e.url).on("load", function() {
-                    $.ajax({
-                        url: e.url,
-                        beforeSend: function(xhr) {
-                          xhr.overrideMimeType('text/plain; charset=x-user-defined');
-                        },
-                        success: function(data, s, xhr) {
-                          var content = e.url;
-                          if (data.length < 1000000)
-                            content = "data:image/jpeg;base64,"+Base64.encodeBinary(data);
-                          new_image.find(".image-selected span").attr("class", "icon-ok");
-                          new_image.attr("data-status", "ok");
-                          new_image.find(".image-selected").wrap('<a class="image-save" target="_blank"></a>');
-                          new_image.find(".image-save").attr("href", content)
-                                   .attr("download", e.url.split("/").slice(-1)[0])
-                                   .on("click", function() {
-                                     var _this = this;
-                                     setTimeout(function() {
-                                       new_image.attr("data-status", "done");
-                                       $(_this).removeAttr("href").removeAttr("download");
-                                     }, 100);
-                          });
-                        },
-                        type: 'GET',
-                    });
-                  }).on("error", function() {
-                    new_image.find(".image-selected span").attr("class", "icon-block");
-                    new_image.attr("data-status", "error");
-                  });
-                  new_image.attr("data-status", "downloading");
-                  new_image.append('<div class="image-selected"><span class="icon-down"></span></div>');
-                } else if (new_image.attr("data-status") == "error") {
-                  chrome.tabs.create({url: e.url, active: false});
-                } else if (new_image.attr("data-status") == "done") {
-                  chrome.tabs.create({url: e.url, active: false});
-                } else if (new_image.attr("data-status") == "ok") {
-                  //chrome.tabs.create({url: e.url, active: false});
-                }
+              new_image.attr("href", e.url);
+              new_image.on("contextmenu", function() {
+                chrome.tabs.create({url: e.url, active: true});
+                return false;
+              }).on("click", function() {
+                new_image.find("img").attr("src", e.url);
+                new_image.attr("data-status", "ok");
+                new_image.find(".image-hover").addClass("icon-ok");
               });
               new_item.find(".search-image").append(new_image);
             });
@@ -297,62 +268,6 @@
       return result;
     }
 
-    var Base64 = {
-      // from http://emilsblog.lerch.org/2009/07/javascript-hacks-using-xhr-to-load.html
-
-      // private property
-      _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-
-      encodeBinary : function(input){
-        var output = "";
-        var bytebuffer;
-        var encodedCharIndexes = new Array(4);
-        var inx = 0;
-        var paddingBytes = 0;
-
-        while(inx < input.length){
-          // Fill byte buffer array
-          bytebuffer = new Array(3);
-          for(jnx = 0; jnx < bytebuffer.length; jnx++)
-          if(inx < input.length)
-          bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff; // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
-        else
-          bytebuffer[jnx] = 0;
-
-        // Get each encoded character, 6 bits at a time
-        // index 1: first 6 bits
-        encodedCharIndexes[0] = bytebuffer[0] >> 2;  
-        // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
-        encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);  
-        // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
-        encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);  
-        // index 3: forth 6 bits (6 least significant bits from input byte 3)
-        encodedCharIndexes[3] = bytebuffer[2] & 0x3f;  
-
-        // Determine whether padding happened, and adjust accordingly
-        paddingBytes = inx - (input.length - 1);
-        switch(paddingBytes){
-        case 2:
-          // Set last 2 characters to padding char
-          encodedCharIndexes[3] = 64; 
-          encodedCharIndexes[2] = 64; 
-          break;
-        case 1:
-          // Set last character to padding char
-          encodedCharIndexes[3] = 64; 
-          break;
-        default:
-          break; // No padding - proceed
-        }
-        // Now we will grab each appropriate character out of our keystring
-        // based on our index array and append it to the output string
-        for(jnx = 0; jnx < encodedCharIndexes.length; jnx++)
-          output += this._keyStr.charAt(encodedCharIndexes[jnx]);
-        }
-        return output;
-      }
-    };
-
     // init
     var image_item_tpl = $("#image-item-tpl").text();
     var image_loading_tpl = $("#image-loading-tpl").text();
@@ -361,7 +276,6 @@
     var image_tpl = $("#image-tpl").text();
     var image_more_tpl = $("#image-more-tpl").text();
 
-
     // init event
     document.ondrop = function(ev) {
       ev.preventDefault();
@@ -369,6 +283,9 @@
       $.each(ev.dataTransfer.files, function(n, e) {
         files.push(e);
       });
+      if (files.length) {
+        $("#helper").hide();
+      }
       $.each(files.sort(function(a, b){return a.name>b.name}), function(n, e) {
         add_file(e);
       });

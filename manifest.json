@@ -1,7 +1,7 @@
 {
-  "name": "Find Larger Pictures",
-  "description": "Find Larger Pictures",
-  "version": "0.0.1",
+  "name": "Find Larger Images",
+  "description": "Find Larger Images",
+  "version": "0.0.2",
   "manifest_version": 2,
   "app": {
     "launch": {
