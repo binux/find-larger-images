@@ -47,11 +47,15 @@
               new_image.find("img").attr("src", e.sample).attr("title", e.url);
               new_image.find(".image-size").text(e.size[0]+" × "+e.size[1]);
               new_image.attr("href", e.url);
-              new_image.on("contextmenu", function() {
-                chrome.tabs.create({url: e.url, active: true});
+              new_image.on("contextmenu", function(ev) {
+                var active = ev.altKey || ev.ctrlKey || ev.shiftKey || ev.metaKey;
+                chrome.tabs.create({url: e.url, active: !active});
                 return false;
               }).on("click", function() {
-                new_image.find("img").attr("src", e.url);
+                new_image.find("img").attr("src", e.url).on("error", function() {
+                  new_image.attr("data-status", "error");
+                  new_image.find(".image-hover").removeClass("icon-ok").addClass("icon-block");
+                });
                 new_image.attr("data-status", "ok");
                 new_image.find(".image-hover").addClass("icon-ok");
               });
