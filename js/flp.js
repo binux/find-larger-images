@@ -4,6 +4,17 @@
 // Created on <T_CREATE_DATE>
 
 (function(EXPORT) {
+    var height_light_host = ["yande.re", "konachan.com"];
+    function height_light(url) {
+      var m = url.match("https?://([^/]+)/");
+      if (!m) return false;
+      var host = m[1];
+      if (height_light_host.indexOf(host) != -1) {
+        return true;
+      }
+      return false;
+    };
+
     function add_file(file) {
       var reader = new FileReader();
       reader.onload = function(e) {
@@ -14,7 +25,13 @@
 
         });
         new_item.find(".ori-image a").on("click", function() {
+          if (!$(this).attr("download"))
+            $(this).attr("href", data_url).attr("download", file.name);
+        }).on("mouseout", function() {
+          $(this).removeAttr("diwnload").removeAttr("href");
+        }).on("contextmenu", function() {
           chrome.tabs.create({url: data_url, active: true});
+          return false;
         });
         new_item.find(".search-image").empty().append(image_loading_tpl);
         new_item.appendTo(".image-list");
@@ -44,6 +61,7 @@
             new_item.find(".search-image").empty();
             $.each(out, function(n, e) {
               var new_image = $(image_tpl).attr("data-status", "waiting");
+              if (height_light(e.url)) new_image.addClass("image-height-light");
               new_image.find("img").attr("src", e.sample).attr("title", e.url);
               new_image.find(".image-size").text(e.size[0]+" × "+e.size[1]);
               new_image.attr("href", e.url);
@@ -54,10 +72,13 @@
               }).on("click", function() {
                 new_image.find("img").attr("src", e.url).on("error", function() {
                   new_image.attr("data-status", "error");
-                  new_image.find(".image-hover").removeClass("icon-ok").addClass("icon-block");
+                  new_image.find(".image-hover").removeClass("icon-down").addClass("icon-block");
+                }).on("load", function() {
+                  new_image.attr("data-status", "ok");
+                  new_image.find(".image-hover").removeClass("icon-down").addClass("icon-ok");
                 });
-                new_image.attr("data-status", "ok");
-                new_image.find(".image-hover").addClass("icon-ok");
+                new_image.attr("data-status", "downloading");
+                new_image.find(".image-hover").addClass("icon-down");
               });
               new_item.find(".search-image").append(new_image);
             });
@@ -184,6 +205,7 @@
       var m = data.match(/<div style="display:block">Please click <a href="(.*?)&gbv=1/i);
       if (m)
         return m[1];
+      return null;
     }
 
     function parse_search(data) {
@@ -193,13 +215,8 @@
       }
 
       var result = [];
-      var image_in_page = data.match(/matching images.*?(imagebox_bigimages|<\/ol>)/i);
-      if (image_in_page) {
-        var tmp = image_in_page[0].match(/<li class=g>.*?<!--/gm);
-        if (!tmp) {
-          console.error("parser search image group error");
-          return null;
-        }
+      var tmp = data.match(/<li class=g><div class=vsc.*?<!--/gm);
+      if (tmp) {
         $.each(tmp, function(n, e) {
           var url = e.match(image_re);
           var size = e.match(image_size1_re);
