@@ -4,7 +4,7 @@
 // Created on <T_CREATE_DATE>
 
 (function(EXPORT) {
-    var height_light_host = ["yande.re", "konachan.com"];
+    var height_light_host = ["yande.re", "konachan.com", "hijiribe.donmai.us", "e-shuushuu.net", "chan.sankakustatic.com", "cdn1.gelbooru.com", "cdn2.gelbooru.com", "www.theanimegallery.com", "s1.zerochan.net", "s2.zerochan.net", "s3.zerochan.net", "mangadrawing.net", ];
     function height_light(url) {
       var m = url.match("https?://([^/]+)/");
       if (!m) return false;

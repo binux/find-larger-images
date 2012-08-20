@@ -1,12 +1,17 @@
 {
   "name": "Find Larger Images",
   "description": "Find Larger Images",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "manifest_version": 2,
   "app": {
     "launch": {
       "local_path": "index.html"
     }
+  },
+  "icons": {
+    "16": "img/icon.jpeg",
+    "48": "img/icon.jpeg",
+    "128": "img/icon.jpeg"
   },
   "permissions": [
     "<all_urls>",
